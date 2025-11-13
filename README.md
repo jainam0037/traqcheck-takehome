@@ -99,26 +99,26 @@ volumes/
 ---
 
 ## 🏗️ Architecture
-
-```mermaid
 flowchart LR
-  A[Frontend (Vite/React)]
-  B[(API /candidates/upload)]
-  C[Cerely Worker]
-  D[(PostgreSQL)]
-  M[(Messenger: SMTP/Twilio)]
+  FE[Frontend (Vite/React)] -->|Upload PDF/DOCX| API[(Django REST API)]
+  API -->|Save file| STORE[(Docs Volume<br/>/data/docs)]
+  API -->|Create Candidate + Extraction(queued)| DB[(PostgreSQL)]
+  API -->|enqueue parse_resume_task| REDIS[(Redis Queue)]
+  REDIS --> WORKER[Celery Worker]
+  WORKER -->|read resume| STORE
+  WORKER -->|extract fields + confidence| DB
+  FE -->|Poll /candidates/:id| API
+  API -->|profile + status| FE
 
-  A -->|upload resume| B
-  B -->|create Candidate+Resume; Extraction=queued| C
-  C -->|parse_resume_task| D
-  A -->|poll /candidates/:id| B
-  A -->|request-documents (send_now?)| B
-  B -->|generate preview w/ LLM| D
-  B -->|optional send via SMTP/Twilio| M
-  A -->|submit-documents (PAN/Aadhaar)| B --> D
-  A -->|list candidates| B --> D
+  FE -->|“Request PAN/Aadhaar”| API
+  API -->|Generate preview (LLM)| DB
+  API -. optional send .-> MSG[(Email/SMS Provider<br/>SMTP/Twilio)]
+  API -->|log request| DB
 
-```
+  FE -->|Upload PAN/Aadhaar images| API
+  API -->|store files| STORE
+  API -->|log documents| DB
+
 
 **Flow (happy path)**
 
