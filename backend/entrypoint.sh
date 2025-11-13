@@ -41,8 +41,7 @@
 #!/bin/sh
 set -e
 
-echo "[entrypoint] env:"
-echo "  POSTGRES_HOST=${POSTGRES_HOST} PORT=${POSTGRES_PORT:-5432} DB=${POSTGRES_DB}"
+echo "[entrypoint] env: POSTGRES_HOST=${POSTGRES_HOST} POSTGRES_PORT=${POSTGRES_PORT:-5432} DB=${POSTGRES_DB}"
 
 echo "[entrypoint] waiting for db..."
 until pg_isready -h "${POSTGRES_HOST}" -p "${POSTGRES_PORT:-5432}" -U "${POSTGRES_USER}" >/dev/null 2>&1; do

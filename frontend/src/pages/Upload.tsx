@@ -2,6 +2,7 @@
 // Shows the Candidate ID and a link to open the detail page.
 // ---------------------------------------------------------------------------
 import React, { useCallback, useEffect, useRef, useState } from "react";
+import { Link } from "react-router-dom";
 import { uploadResume, getCandidate } from "../api/client";
 import type { CandidateDetail } from "../types";
 
@@ -135,9 +136,9 @@ export default function Upload() {
           </div>
           <div className="text-sm text-gray-600">
             Open detail:{" "}
-            <a className="text-blue-600 underline" href={`/candidates/${candidateId}`}>
+            <Link className="text-blue-600 underline" to={`/candidates/${candidateId}`}>
               /candidates/{candidateId}
-            </a>
+            </Link>
           </div>
         </div>
       )}

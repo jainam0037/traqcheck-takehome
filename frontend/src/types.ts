@@ -10,7 +10,7 @@ export type CandidateRow = {
   name: string;
   email: string;
   company: string;
-  extraction_status: ExtractionStatus;
+  extraction_status: "queued" | "done" | "error" | string;
   updated_at: string;
 };
 
@@ -36,10 +36,20 @@ export type CandidateDocument = {
   verified?: boolean;
 };
 
+export type DocumentRequest = {
+  id: string;
+  channel: "email" | "sms";
+  created_at: string;
+  preview?: DocumentRequestPreview; // <- concrete type
+};
+
 export type DocumentRequestPreview = {
   subject: string;
   email_body: string;
   sms_body: string;
+  sent?: boolean;
+  sent_at?: string;   // ISO timestamp
+  error?: string;     // delivery error, if any
 };
 
 export type CandidateRequest = {
@@ -50,13 +60,33 @@ export type CandidateRequest = {
   preview?: DocumentRequestPreview | unknown;
 };
 
+// export type CandidateDetail = {
+//   id: string;
+//   extracted: Partial<Extracted>;
+//   confidence: Partial<Confidence>;
+//   documents: CandidateDocument[];
+//   requests: CandidateRequest[];
+//   extraction_status: ExtractionStatus;
+// };
+
 export type CandidateDetail = {
   id: string;
   extracted: Partial<Extracted>;
   confidence: Partial<Confidence>;
-  documents: CandidateDocument[];
-  requests: CandidateRequest[];
-  extraction_status: ExtractionStatus;
+  documents: {
+    id: string;
+    type: "PAN" | "AADHAAR";
+    filename: string;
+    uploaded_at: string;
+    verified?: boolean;
+  }[];
+  requests: {
+    id: string;
+    channel: "email" | "sms";
+    created_at: string;
+    preview?: DocumentRequestPreview; // typed preview (was any)
+  }[];
+  extraction_status: "queued" | "done" | "error" | string;
 };
 
 // Returned by POST /candidates/upload
@@ -70,6 +100,7 @@ export type RequestDocumentsBody = {
   upload_url: string;
   org_name?: string;
   support_email?: string;
+  send_now?: boolean; 
 };
 
 export type RequestDocumentsResponse = {
@@ -78,5 +109,5 @@ export type RequestDocumentsResponse = {
 };
 
 export type SubmitDocumentsResponse = {
-  saved: { id: string; type: DocType; filename: string }[];
+  saved: { id: string; type: "PAN" | "AADHAAR"; filename: string }[];
 };

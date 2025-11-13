@@ -2,7 +2,7 @@ FROM python:3.11-slim
 
 WORKDIR /app
 
-# add pg client so pg_isready exists
+# pg_isready + build deps
 RUN apt-get update && apt-get install -y --no-install-recommends \
     gcc build-essential libpq-dev postgresql-client \
  && rm -rf /var/lib/apt/lists/*
