@@ -102,15 +102,22 @@ volumes/
 
 ```mermaid
 flowchart LR
-  A[Frontend (Vite/React)] -- upload resume --> B[(API /candidates/upload)]
-  B -- create Candidate+Resume; Extraction=queued --> C[Celery Worker]
-  C -->|parse_resume_task| D[(PostgreSQL)]
-  A -- poll /candidates/:id --> B
-  A -- request-documents (send_now?) --> B
-  B -- generate preview w/ LLM --> D
-  B -- optional send via SMTP/Twilio --> M[Messenger]
-  A -- submit-documents (PAN/Aadhaar) --> B --> D
-  A -- list candidates --> B --> D
+  A[Frontend (Vite/React)]
+  B[(API /candidates/upload)]
+  C[Cerely Worker]
+  D[(PostgreSQL)]
+  M[(Messenger: SMTP/Twilio)]
+
+  A -->|upload resume| B
+  B -->|create Candidate+Resume; Extraction=queued| C
+  C -->|parse_resume_task| D
+  A -->|poll /candidates/:id| B
+  A -->|request-documents (send_now?)| B
+  B -->|generate preview w/ LLM| D
+  B -->|optional send via SMTP/Twilio| M
+  A -->|submit-documents (PAN/Aadhaar)| B --> D
+  A -->|list candidates| B --> D
+
 ```
 
 **Flow (happy path)**
@@ -373,11 +380,3 @@ Config: `VITE_API_BASE` points to the API (see `.env.example`). Uses React Route
 * CI (pytest, mypy, eslint), seed data, containerized prod deploy
 
 ---
-
-## 📄 License
-
-MIT (or your preferred license).
-
----
-
-> Questions or feedback? Open an issue or reach out via the support email configured in `.env`.
