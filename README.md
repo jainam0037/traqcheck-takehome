@@ -98,20 +98,6 @@ volumes/
 
 ---
 
-## 🏗️ Architecture
-flowchart LR
-  A[Frontend] -->|Upload| B[(API)]
-  B -->|Enqueue parse| C[(Redis)]
-  C --> D[Worker]
-  D -->|Extract & Save| E[(PostgreSQL)]
-  A -->|Poll status| B
-  A -->|Request docs| B
-  B -->|LLM preview| E
-  B -. optional send .-> F[(SMTP/Twilio)]
-  A -->|Upload PAN/Aadhaar| B
-  B -->|Store files| G[(Docs Volume)]
-  B -->|Log docs| E
-
 
 
 **Flow (happy path)**
