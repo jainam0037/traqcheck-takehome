@@ -1,7 +1,10 @@
-FROM node:20-alpine
+# swap alpine → debian slim to avoid musl/rollup issues
+FROM node:20-bullseye-slim
+
 WORKDIR /app
 COPY package.json package-lock.json* ./
-RUN npm ci || npm install
+RUN npm ci
+
 COPY . .
 EXPOSE 5173
-CMD ["npm", "run", "dev", "--", "--host", "0.0.0.0"]
+CMD ["npm","run","dev","--","--host","0.0.0.0"]

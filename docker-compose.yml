@@ -75,19 +75,30 @@ services:
       - ./backend:/app
     restart: unless-stopped
 
+  # frontend:
+  #   build: ./frontend
+  #   env_file: .env
+  #   environment:
+  #     # used by the React app to call the API
+  #     VITE_API_URL: ${VITE_API_URL:-http://localhost:8000}
+  #   depends_on:
+  #     - api
+  #   volumes:
+  #     - ./frontend:/app
+  #     # - /app/node_modules
+  #   ports:
+  #     - "5173:5173"
+  
   frontend:
-    build: ./frontend
-    env_file: .env
-    environment:
-      # used by the React app to call the API
-      VITE_API_URL: ${VITE_API_URL:-http://localhost:8000}
-    depends_on:
-      - api
-    volumes:
-      - ./frontend:/app
-      - /app/node_modules
+    build:
+      context: ./frontend
     ports:
       - "5173:5173"
+    volumes:
+      - ./frontend:/app
+    environment:
+      - VITE_API_BASE=http://localhost:8000
+      - CHOKIDAR_USEPOLLING=true
 
 volumes:
   pgdata:

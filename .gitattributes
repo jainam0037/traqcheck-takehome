@@ -11,3 +11,5 @@
 Dockerfile text eol=lf
 .env text eol=lf
 backend/staticfiles/** -text
+* text=auto
+*.sh text eol=lf
