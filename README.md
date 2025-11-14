@@ -296,6 +296,23 @@ curl -F pan=@/path/pan.pdf -F aadhaar=@/path/aadhaar.jpg \
 
 ---
 
+📸 Screenshots
+
+[![1️⃣ AI-Generated Email/SMS Request Preview](https://github.com/jainam0037/traqcheck-takehome/blob/main/resumes%20for%20testing/Request%20for%20PAN%20AADHAAR%20confirmation.png)]
+
+
+Shows how the AI agent composes a PAN/Aadhaar request with option to Send Now.
+
+2️⃣ PII Masking for Sensitive Identity Files
+
+Uploaded Aadhaar/PAN files automatically mask sensitive numbers/identifiers.
+
+3️⃣ Candidate Table (Database Reference)
+
+A snapshot of how candidate records are persisted in PostgreSQL.
+
+---
+
 ## 🖥️ Frontend
 
 * **Upload** page: drag‑and‑drop / click → POST upload → poll status → link to detail
