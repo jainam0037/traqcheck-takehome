@@ -339,17 +339,6 @@ Config: `VITE_API_BASE` points to the API (see `.env.example`). Uses React Route
 
 ---
 
-## 🗺️ Loom Walkthrough Script (≤5 min)
-
-1. **Architecture** (30s): show README architecture diagram; call out Django/DRF + Celery + Postgres + Redis + React
-2. **Upload** (60s): drag a resume, show candidate ID & polling → status becomes *done*
-3. **Profile** (60s): open candidate detail, highlight extracted fields + confidence bars
-4. **Agent** (60s): choose *Auto*, tick *Send now*, click *Generate Request* → show preview and API logs showing dev‑send
-5. **Documents** (45s): upload PAN/Aadhaar, see them listed
-6. **Wrap** (30s): mention guardrails, future work (OCR, verification, deployment)
-
----
-
 ## 🛣️ Roadmap
 
 * Real text‑extraction pipeline (PDFMiner/pypdf/docx) + schema‑guided LLM
